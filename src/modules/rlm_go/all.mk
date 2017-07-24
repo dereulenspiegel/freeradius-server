@@ -29,7 +29,7 @@ CGO_CFLAGS := -I. -I${top_srcdir}/src \
 	-Wformat-y2k -Wno-format-extra-args -Wno-format-zero-length -Wno-cast-align \
 	-Wformat-nonliteral -Wformat-security -Wformat=2 -DWITH_VERIFY_PTR=1 -DIS_MODULE=1
 
-CGO_LDFLAGS := -L${top_srcdir}/build/lib/.libs/ -lfreeradius-server
+CGO_LDFLAGS := -L${top_srcdir}/build/lib/.libs/ -lfreeradius-server -lfreeradius-radius
 CGO_LDFLAGS += $(LDFLAGS)
 
 go_build_static: $(BASE) go_build_dynamic

@@ -12,6 +12,7 @@ static const CONF_PARSER module_config[] = {
  };
 
 extern int go_instantiate(CONF_SECTION *conf, char const *plugin);
+extern int go_authorize(char const *pluginPath, REQUEST *request);
 
 static int mod_instantiate(CONF_SECTION *conf, void *instance) {
   rlm_go_t *inst = instance;
@@ -19,8 +20,9 @@ static int mod_instantiate(CONF_SECTION *conf, void *instance) {
   return go_instantiate(conf, inst->plugin);
 }
 
-static rlm_rcode_t CC_HINT(nonnull) mod_authorize(UNUSED void *instance, REQUEST *request) {
-  return RLM_MODULE_OK;
+static rlm_rcode_t CC_HINT(nonnull) mod_authorize(void *instance, REQUEST *request) {
+  rlm_go_t *inst = instance;
+  return go_authorize(inst->plugin,request);
 }
 
 static rlm_rcode_t CC_HINT(nonnull) mod_authenticate(UNUSED void *instance, UNUSED REQUEST *request) {
