@@ -18,13 +18,9 @@ TGT_LINKER := "echo"
 CGO_CFLAGS1 := $(subst -I,-I${top_srcdir}/,$(CFLAGS))
 CGO_CFLAGS2 := $(subst -include ,-include ${top_srcdir}/, $(CGO_CFLAGS1))
 # This is probably really hacky, but cgo seems to generate code causing errors
-#CGO_CFLAGS3 := $(subst -Wstrict-prototypes,,$(CGO_CFLAGS2))
-#CGO_CFLAGS4 := $(subst -Wmissing-prototypes,,$(CGO_CFLAGS3))
-#CGO_CFLAGS5 := $(subst -Wmissing-declarations,,$(CGO_CFLAGS4))
-# Ok, lets just remove everything causing errors
 CGO_CFLAGS := $(patsubst -W%,,$(CGO_CFLAGS2))
 
-CGO_LDFLAGS := -L${top_srcdir}/build/lib/.libs/ -lfreeradius-server -lfreeradius-radius
+CGO_LDFLAGS := -L${top_srcdir}/build/lib/.libs/ -lfreeradius-radius -lfreeradius-server
 CGO_LDFLAGS += $(LDFLAGS)
 
 go_build_static: $(BASE) go_build_dynamic
