@@ -32,14 +32,16 @@ go_build_static: $(BASE) go_build_dynamic create_fake_la_files
 	cd $(BASE) && \
 	GOPATH='$(LOCAL_GOPATH)' CGO_CFLAGS='$(CGO_CFLAGS)' CGO_LDFLAGS='$(CGO_LDFLAGS)' \
 	go build -buildmode=c-archive \
-	-o $(top_builddir)/$(BUILD_DIR)/lib/local/.libs/$(PACKAGE).a ./
+	-o $(top_builddir)/$(BUILD_DIR)/lib/local/.libs/$(PACKAGE).a ./ && \
+	cp $(top_builddir)/$(BUILD_DIR)/lib/local/.libs/$(PACKAGE).a $(top_builddir)/$(BUILD_DIR)/lib/.libs/$(PACKAGE).a
 
 go_build_dynamic: $(BASE)
 	@echo "CGO_CFLAGS $(CGO_CFLAGS)"
 	cd $(BASE) && \
 	GOPATH='$(LOCAL_GOPATH)' CGO_CFLAGS='$(CGO_CFLAGS)' CGO_LDFLAGS='$(CGO_LDFLAGS)' \
 	go build -buildmode=c-shared \
-	-o $(top_builddir)/$(BUILD_DIR)/lib/local/.libs/$(PACKAGE).so ./
+	-o $(top_builddir)/$(BUILD_DIR)/lib/local/.libs/$(PACKAGE).so ./ && \
+	cp $(top_builddir)/$(BUILD_DIR)/lib/local/.libs/$(PACKAGE).so $(top_builddir)/$(BUILD_DIR)/lib/.libs/$(PACKAGE).so
 
 $(BASE):
 	@mkdir -p $(dir $@)
