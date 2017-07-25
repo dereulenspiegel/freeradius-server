@@ -19,7 +19,7 @@ CGO_CFLAGS1 := $(subst -I,-I${top_srcdir}/,$(CFLAGS))
 CGO_CFLAGS2 := $(subst -include ,-include ${top_srcdir}/, $(CGO_CFLAGS1))
 # This is probably really hacky, but cgo seems to generate code causing errors
 CGO_CFLAGS3 := $(subst -Wstrict-prototypes,,$(CGO_CFLAGS2))
-CGO_CFLAGS := $(subst -Wmissing-prototypes,,$(CGO_CFLAGS2))
+CGO_CFLAGS := $(subst -Wmissing-prototypes,,$(CGO_CFLAGS3))
 
 CGO_LDFLAGS := -L${top_srcdir}/build/lib/.libs/ -lfreeradius-server -lfreeradius-radius
 CGO_LDFLAGS += $(LDFLAGS)
