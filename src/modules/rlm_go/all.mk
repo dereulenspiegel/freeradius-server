@@ -20,7 +20,8 @@ CGO_CFLAGS2 := $(subst -include ,-include ${top_srcdir}/, $(CGO_CFLAGS1))
 # This is probably really hacky, but cgo seems to generate code causing errors
 CGO_CFLAGS := $(patsubst -W%,,$(CGO_CFLAGS2))
 
-CGO_LDFLAGS := -L${top_srcdir}/build/lib/.libs/ -lfreeradius-radius -lfreeradius-server
+CGO_LDFLAGS := -Wl,--unresolved-symbols=ignore-all
+CGO_LDFLAGS += -L${top_srcdir}/build/lib/local/.libs -lfreeradius-radius -lfreeradius-server
 CGO_LDFLAGS += $(LDFLAGS)
 
 go_build_static: $(BASE) go_build_dynamic
