@@ -18,7 +18,7 @@ TGT_LINKER := "echo"
 CGO_CFLAGS1 := $(subst -I,-I${top_srcdir}/,$(CFLAGS))
 CGO_CFLAGS2 := $(subst -include ,-include ${top_srcdir}/, $(CGO_CFLAGS1))
 # This is probably really hacky, but cgo seems to generate code causing errors
-CGO_CFLAGS := $(subst -Werror=strict-prototypes,,$(CGO_CFLAGS2))
+CGO_CFLAGS := $(subst -Wstrict-prototypes,,$(CGO_CFLAGS2))
 
 CGO_LDFLAGS := -L${top_srcdir}/build/lib/.libs/ -lfreeradius-server -lfreeradius-radius
 CGO_LDFLAGS += $(LDFLAGS)
@@ -30,6 +30,7 @@ go_build_static: $(BASE) go_build_dynamic
 	-o $(top_builddir)/$(BUILD_DIR)/lib/local/$(PACKAGE).a ./
 
 go_build_dynamic: $(BASE)
+	@echo "CGO_CFLAGS $(CGO_CFLAGS)"
 	cd $(BASE) && \
 	GOPATH='$(LOCAL_GOPATH)' CGO_CFLAGS='$(CGO_CFLAGS)' CGO_LDFLAGS='$(CGO_LDFLAGS)' \
 	go build -buildmode=c-shared \
