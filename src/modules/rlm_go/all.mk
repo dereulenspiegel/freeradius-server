@@ -34,7 +34,7 @@ go_build_dynamic: $(BASE)
 	cd $(BASE) && \
 	GOPATH='$(LOCAL_GOPATH)' CGO_CFLAGS='$(CGO_CFLAGS)' CGO_LDFLAGS='$(CGO_LDFLAGS)' \
 	go build -buildmode=c-shared \
-	-o $(top_builddir)/$(BUILD_DIR)/lib/local/$(PACKAGE).dylib ./
+	-o $(top_builddir)/$(BUILD_DIR)/lib/local/$(PACKAGE).so ./
 
 $(BASE):
 	@mkdir -p $(dir $@)
@@ -42,7 +42,7 @@ $(BASE):
 
 build/lib/local/rlm_go.la: go_build_static
 
-build/lib/local/rlm_go.dylib: go_build_dynamic
+build/lib/local/rlm_go.so: go_build_dynamic
 
 clean_rlm_go.la: go_clean
 
