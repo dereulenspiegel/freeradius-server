@@ -45,8 +45,8 @@ static int mod_detach(UNUSED void *instance) {
   return 0;
 }
 
-extern module_t rlm_cloud;
-module_t rlm_cloud = {
+extern module_t rlm_go;
+module_t rlm_go = {
   .magic = RLM_MODULE_INIT,
   .name = "go",
   .type = RLM_TYPE_THREAD_UNSAFE,
