@@ -24,18 +24,22 @@ CGO_LDFLAGS := -Wl,--unresolved-symbols=ignore-all
 CGO_LDFLAGS += -L${top_srcdir}/build/lib/local/.libs -lfreeradius-radius -lfreeradius-server
 CGO_LDFLAGS += $(LDFLAGS)
 
-go_build_static: $(BASE) go_build_dynamic
+create_fake_la_files:
+	@echo "/usr/local/lib" > $(top_builddir)/$(BUILD_DIR)/lib/$(PACKAGE).la
+	@echo "$(top_builddir)/$(BUILD_DIR)/lib/local/.libs"  > $(top_builddir)/$(BUILD_DIR)/lib/local/$(PACKAGE).la
+
+go_build_static: $(BASE) go_build_dynamic create_fake_la_files
 	cd $(BASE) && \
 	GOPATH='$(LOCAL_GOPATH)' CGO_CFLAGS='$(CGO_CFLAGS)' CGO_LDFLAGS='$(CGO_LDFLAGS)' \
 	go build -buildmode=c-archive \
-	-o $(top_builddir)/$(BUILD_DIR)/lib/local/$(PACKAGE).a ./
+	-o $(top_builddir)/$(BUILD_DIR)/lib/local/.libs/$(PACKAGE).a ./
 
 go_build_dynamic: $(BASE)
 	@echo "CGO_CFLAGS $(CGO_CFLAGS)"
 	cd $(BASE) && \
 	GOPATH='$(LOCAL_GOPATH)' CGO_CFLAGS='$(CGO_CFLAGS)' CGO_LDFLAGS='$(CGO_LDFLAGS)' \
 	go build -buildmode=c-shared \
-	-o $(top_builddir)/$(BUILD_DIR)/lib/local/$(PACKAGE).so ./
+	-o $(top_builddir)/$(BUILD_DIR)/lib/local/.libs/$(PACKAGE).so ./
 
 $(BASE):
 	@mkdir -p $(dir $@)
