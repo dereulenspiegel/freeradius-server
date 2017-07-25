@@ -50,18 +50,21 @@ func go_instantiate(cconf *C.CONF_SECTION, pl *C.char) C.int {
 		return -1
 	}
 
+	radlogInstance.Radlog(freeradius.LogTypeInfo, "Looking up plugin symbol CreateModule")
 	createModule, err := gomodule.Lookup(createModuleSymbol)
 	if err != nil {
 		radlogInstance.Radlog(freeradius.LogTypeError, "Unable to lookup symbol %s: %#v", createModuleSymbol, err)
 		return -1
 	}
 
+	radlogInstance.Radlog(freeradius.LogTypeInfo, "Calling CreateModule")
 	instance := createModule.(freeradius.ModuleFunc)()
 	if instance == nil {
 		radlogInstance.Radlog(freeradius.LogTypeError, "Created go module instance is nil")
 		return -1
 	}
 
+	radlogInstance.Radlog(freeradius.LogTypeInfo, "Initiating go plugin")
 	if err := instance.Init(radlogInstance); err != nil {
 		radlogInstance.Radlog(freeradius.LogTypeError, "Unable to initialize go module %s: %#v", pluginPath, err)
 	}
