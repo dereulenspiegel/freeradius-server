@@ -28,7 +28,6 @@ go_build_static: $(BASE) go_build_dynamic
 	-o $(top_builddir)/$(BUILD_DIR)/lib/local/$(PACKAGE).a ./
 
 go_build_dynamic: $(BASE)
-	@echo "CGO_FLAGS $(CGO_CFLAGS)"
 	cd $(BASE) && \
 	GOPATH='$(LOCAL_GOPATH)' CGO_CFLAGS='$(CGO_CFLAGS)' CGO_LDFLAGS='$(CGO_LDFLAGS)' \
 	go build -buildmode=c-shared \
